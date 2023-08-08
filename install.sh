@@ -20,6 +20,8 @@ echo "$USERNAME:$PASSWORD" | chpasswd
 
 # Add the new user to the sudo group
 usermod -aG sudo "$USERNAME"
+usermod -aG docker "$USERNAME"
+su -s ${USERNAME}
 
 # Install Docker and Docker Compose
 apt update
