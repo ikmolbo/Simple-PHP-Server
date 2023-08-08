@@ -6,13 +6,14 @@ if [[ $(id -u) -ne 0 ]]; then
   exit 1
 fi
 
-# Prompt for username and password
-read -p "Choose a username for the new user: " USERNAME
-read -s -p "Enter a password for the new user: " PASSWORD
-echo
-
 # Fetch the public IP and save it to a variable
 PUBLIC_IP=$(curl -s https://api.ipify.org)
+
+USERNAME="www-user"
+
+# Prompt for password
+read -s -p "Enter a password for the new user: " PASSWORD
+echo
 
 # Create a new user with the provided username and password
 useradd -m -G www-data "$USERNAME"
@@ -37,10 +38,6 @@ chmod +x /usr/local/bin/docker-compose
 # Download and extract the ZIP file using curl
 apt install -y unzip
 
-# Clear out old stuff
-# rm -rf /home/$USERNAME
-# mkdir -p /home/$USERNAME
-
 # Switch to the user's home directory
 cd /home/$USERNAME && wait
 
@@ -51,9 +48,6 @@ unzip tmp/master.zip -d ./tmp
 rm tmp/master.zip
 mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
-
-# Replace {HOSTNAME} with the public IP in the Caddyfile
-sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" ./caddy/Caddyfile
 
 # Clean up
 rm /home/$USERNAME/install.sh
