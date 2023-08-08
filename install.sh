@@ -50,8 +50,8 @@ rm tmp/master.zip
 mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
-# Clean up
-rm /var/www/install.sh
+# Replace {HOSTNAME} with the public IP in the Caddyfile
+sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" /var/www/caddy/Caddyfile
 
 # Set permissions
 chown -R $USERNAME:www-data /var/www
@@ -69,6 +69,10 @@ sudo -u $USERNAME docker build -t app .
 cd ..  # Assuming the docker-compose.yml is in this directory
 sudo -u $USERNAME docker-compose up -d
 sudo -u $USERNAME docker-compose ps
+
+# Clean up
+rm /var/www/install.sh
+rm ./install.sh
 
 # Print username and password
 echo "Your username is $USERNAME"
