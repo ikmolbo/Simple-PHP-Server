@@ -40,7 +40,7 @@ chmod +x /usr/local/bin/docker-compose
 apt install -y unzip
 
 # Switch to the user's home directory
-mkdir -p /var/www && cd /var/www && wait
+rm -rf /var/www && mkdir -p /var/www && cd /var/www && wait
 
 # Download the code from GitHub as a ZIP
 mkdir -p tmp
