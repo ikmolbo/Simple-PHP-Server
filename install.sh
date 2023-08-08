@@ -51,7 +51,7 @@ mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
 # Replace {HOSTNAME} with the public IP in the Caddyfile
-sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" /var/www/caddy/Caddyfile
+sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" ./caddy/Caddyfile
 
 # Set permissions
 chown -R $USERNAME:www-data /var/www
