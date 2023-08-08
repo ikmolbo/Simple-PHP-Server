@@ -3,7 +3,7 @@ import snippets/*
 # Use the "laravel-app" snippet for our site:
 # E.g. import laravel-app mysite.com /var/www/mysite.com
 
-localhost {
+{HOSTNAME} {
     # Resolve the root directory for the app
     root * /var/www/example.com/production/public
 
