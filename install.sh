@@ -52,6 +52,9 @@ rm tmp/master.zip
 mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
+# Replace {HOSTNAME} with the public IP in the Caddyfile
+sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" ./caddy/Caddyfile
+
 # Clean up
 rm /home/$USERNAME/install.sh
 
