@@ -5,7 +5,7 @@ import snippets/*
 
 {HOSTNAME} {
     # Resolve the root directory for the app
-    root * /var/www/example.com/production/public
+    root * /var/www/html
 
     # Provide Zstd and Gzip compression
     encode zstd gzip
