@@ -18,4 +18,4 @@ import snippets/*
 }
 
 # Creates www.example.com and staging.example.com
-import laravel-app example.com
+# import laravel-app example.com
