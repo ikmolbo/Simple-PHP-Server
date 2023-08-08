@@ -1,0 +1,21 @@
+import snippets/*
+
+# Use the "laravel-app" snippet for our site:
+# E.g. import laravel-app mysite.com /var/www/mysite.com
+
+localhost {
+    # Resolve the root directory for the app
+    root * /var/www/example.com/production/public
+
+    # Provide Zstd and Gzip compression
+    encode zstd gzip
+
+    # Enable PHP-FPM
+    php_fastcgi app:9000
+
+    # Allow caddy to serve static files
+    file_server
+}
+
+# Creates www.example.com and staging.example.com
+import laravel-app example.com

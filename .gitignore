@@ -1,0 +1,5 @@
+**/.DS_Store
+caddy/config/**
+caddy/data/**
+www/*
+!www/example.com/

@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  caddy:
+    image: caddy:2.5.1
+    container_name: caddy-server
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - $PWD/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/caddy/snippets:/etc/caddy/snippets
+      - $PWD/www:/var/www
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    networks:
+      - server
+  app:
+    build:
+      args:
+        user: www-user
+        uid: 1000
+      context: ./app/
+      dockerfile: Dockerfile
+    image: php # The name that will be used for the image being built. Could be anything.
+    container_name: php-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./www:/var/www
+    networks:
+      - server
+
+volumes:
+  caddy_data:
+    external: true # Defining the data volume as external makes sure docker-compose down does not delete the volume. You may need to create it manually using docker volume create [project-name]_caddy_data.
+  caddy_config:
+
+networks:
+  server:
+    driver: bridge

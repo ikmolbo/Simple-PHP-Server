@@ -1,0 +1,31 @@
+# snippets/laravel-app
+# {args.0} represents the root url of the app. Example: "jorgeglz.io".
+
+(laravel-app) {
+    www.{args.0} {
+        # Resolve the root directory for the app
+        root * /var/www/{args.0}/production/public
+
+        # Provide Zstd and Gzip compression
+        encode zstd gzip
+
+        # Enable PHP-FPM
+        php_fastcgi app:9000
+
+        # Allow caddy to serve static files
+        file_server
+    }
+    staging.{args.0} {
+        # Resolve the root directory for the app
+        root * /var/www/{args.0}/staging/public
+
+        # Provide Zstd and Gzip compression
+        encode zstd gzip
+
+        # Enable PHP-FPM
+        php_fastcgi app:9000
+
+        # Allow caddy to serve static files
+        file_server
+    }
+}
