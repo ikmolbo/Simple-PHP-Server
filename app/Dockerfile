@@ -32,3 +32,7 @@ RUN mkdir -p /home/$user/.composer && \
 WORKDIR /var/www
 
 USER $user
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]

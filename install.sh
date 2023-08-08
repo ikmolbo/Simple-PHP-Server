@@ -16,11 +16,12 @@ read -s -p "Enter a password for the new user: " PASSWORD
 echo
 
 # Create a new user with the provided username and password
-useradd -m -G www-data "$USERNAME"
+useradd -m "$USERNAME"
 echo "$USERNAME:$PASSWORD" | chpasswd
 
 # Add the new user to the sudo group
 usermod -aG sudo "$USERNAME"
+usermod -aG www-data "$USERNAME"
 usermod -aG docker "$USERNAME"
 su -s ${USERNAME}
 
@@ -39,7 +40,7 @@ chmod +x /usr/local/bin/docker-compose
 apt install -y unzip
 
 # Switch to the user's home directory
-cd /home/$USERNAME && wait
+mkdir -p /var/www && cd /var/www && wait
 
 # Download the code from GitHub as a ZIP
 mkdir -p tmp
@@ -50,12 +51,16 @@ mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
 # Clean up
-rm /home/$USERNAME/install.sh
+rm /var/www/install.sh
 
 # Set permissions
-chown -R $USERNAME:www-data /home/$USERNAME
+chown -R $USERNAME:www-data /var/www
 wait
- 
+
+# Clear out running containers
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
 # Build the Docker image for the app
 cd ./app  # Assuming the Dockerfile is in this directory
 sudo -u $USERNAME docker build -t app .
