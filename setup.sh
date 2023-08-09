@@ -66,8 +66,8 @@ sudo -u $USERNAME docker-compose up -d
 sudo -u $USERNAME docker-compose ps
 
 # Clean up
-rm /root/install.sh
-rm ./install.sh
+rm /root/setup.sh
+rm /home/$USERNAME/setup.sh
 
 # Print username and password
 echo "Your username is $USERNAME"
