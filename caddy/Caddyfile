@@ -3,9 +3,9 @@ import snippets/*
 # Use the "laravel-app" snippet for our site:
 # E.g. import laravel-app mysite.com /var/www/mysite.com
 
-{HOSTNAME}:80 {
+:80 {
     # Resolve the root directory for the app
-    root * /var/www/html
+    root * /var/www
 
     # Provide Zstd and Gzip compression
     encode zstd gzip

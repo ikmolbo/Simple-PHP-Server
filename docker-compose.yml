@@ -1,43 +1,27 @@
-version: '3.9'
-
+version: '3'
 services:
-  caddy:
-    image: caddy:2.5.1
-    container_name: caddy-server
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy/snippets:/etc/caddy/snippets
-      - ./html:/var/www/html
-      - ./caddy/data:/data
-      - ./caddy/config:/config
-    networks:
-      - server
-  app:
-    build:
-      args:
-        user: www-user
-        uid: 1000
-      context: ./app/
-      dockerfile: Dockerfile
-    image: php # The name that will be used for the image being built. Could be anything.
-    container_name: php-app
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./html:/var/www/html
-    networks:
-      - server
+    php-fpm:
+        image: cyberduck/php-fpm-laravel:8.2
+        environment:
+            XDEBUG: false
+            # REMOTE_HOST: "<HOSTIP>" # If not set the default is 'host.docker.internal' which will work on OSX and windows
+        volumes:
+            - ./www:/var/www/
+            - ~/.ssh:/root/.ssh # can be useful for composer if you use private CVS
+    caddy:
+      image: caddy:2.7.2-alpine
+      restart: unless-stopped
+      ports:
+        - "80:80"
+        - "443:443"
+        - "443:443/udp"
+      volumes:
+        - $PWD/caddy/Caddyfile:/etc/caddy/Caddyfile
+        - $PWD/www:/var/www
+        - caddy_data:/data
+        - caddy_config:/config
 
 volumes:
   caddy_data:
-    external: true # Defining the data volume as external makes sure docker-compose down does not delete the volume. You may need to create it manually using docker volume create [project-name]_caddy_data.
+    external: true
   caddy_config:
-
-networks:
-  server:
-    driver: bridge
