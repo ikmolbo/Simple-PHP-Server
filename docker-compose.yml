@@ -2,6 +2,7 @@ version: '3'
 services:
     php-fpm:
         image: cyberduck/php-fpm-laravel:8.2
+        container_name: php-fpm
         environment:
             XDEBUG: false
             # REMOTE_HOST: "<HOSTIP>" # If not set the default is 'host.docker.internal' which will work on OSX and windows
@@ -10,6 +11,7 @@ services:
             - ~/.ssh:/root/.ssh # can be useful for composer if you use private CVS
     caddy:
       image: caddy:2.7.2-alpine
+      container_name: caddy
       restart: unless-stopped
       ports:
         - "80:80"
