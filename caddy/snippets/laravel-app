@@ -10,7 +10,7 @@
         encode zstd gzip
 
         # Enable PHP-FPM
-        php_fastcgi app:9000
+        php_fastcgi php-fpm:9000
 
         # Allow caddy to serve static files
         file_server
@@ -23,7 +23,7 @@
         encode zstd gzip
 
         # Enable PHP-FPM
-        php_fastcgi app:9000
+        php_fastcgi php-fpm:9000
 
         # Allow caddy to serve static files
         file_server
