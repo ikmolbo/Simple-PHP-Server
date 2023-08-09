@@ -61,6 +61,10 @@ wait
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
+# Build and run the Docker Compose setup
+sudo -u $USERNAME docker-compose up -d
+sudo -u $USERNAME docker-compose ps
+
 # Clean up
 rm /root/install.sh
 rm ./install.sh
