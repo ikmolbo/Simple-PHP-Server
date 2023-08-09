@@ -30,7 +30,6 @@ apt update
 apt install -y docker.io
 systemctl start docker
 systemctl enable docker
-systemctl enable docker.service
 
 # Install Docker Compose
 curl -fsSL https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose
@@ -40,7 +39,7 @@ chmod +x /usr/local/bin/docker-compose
 apt install -y unzip
 
 # Switch to the user's home directory
-rm -rf /var/www && mkdir -p /var/www && cd /var/www && wait
+rm -rf /home/$USERNAME && mkdir -p /home/$USERNAME && cd /home/$USERNAME && wait
 
 # Download the code from GitHub as a ZIP
 mkdir -p tmp
@@ -50,33 +49,26 @@ rm tmp/master.zip
 mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
-# Replace {HOSTNAME} with the public IP in the Caddyfile
-sed -i "s/{HOSTNAME}/$PUBLIC_IP/g" ./caddy/Caddyfile
+# Create /var/www folder
+rm -rf /var/www && mkdir -p /var/www && wait
 
 # Set permissions
 chown -R $USERNAME:www-data /var/www
+chown -R $USERNAME:www-data /home/$USERNAME
 wait
 
 # Clear out running containers
 docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 
-# Build the Docker image for the app
-cd ./app  # Assuming the Dockerfile is in this directory
-sudo -u $USERNAME docker build -t app .
-
-# Build and run the Docker Compose setup
-cd ..  # Assuming the docker-compose.yml is in this directory
-sudo -u $USERNAME docker-compose up -d
-sudo -u $USERNAME docker-compose ps
-
 # Clean up
-rm /var/www/install.sh
+rm /root/install.sh
 rm ./install.sh
 
 # Print username and password
 echo "Your username is $USERNAME"
 echo "Your password is $PASSWORD"
 echo "Your public IP is http://$PUBLIC_IP"
+echo "Run sudo -u $USERNAME docker-compose up -d to get started."
 
 echo "Setup completed successfully."
