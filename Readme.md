@@ -36,6 +36,8 @@ Edit ./caddy/Caddyfile to add the hostname of a new site, e.g. `example.com`. Fo
 
 If it looks good, point the A records of your domain (e.g. `example.com`) to this IP address.
 
+Also wise to delete the default block in the Caddyfile responding to :80, and the `index.php` file in `/home/www-user/www`.
+
 ## 6. Reload Caddy
 
 We then need to reload the Caddy server for the new configuration to take effect.
