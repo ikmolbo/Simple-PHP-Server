@@ -23,6 +23,9 @@ echo "$USERNAME:$PASSWORD" | chpasswd
 usermod -aG sudo "$USERNAME"
 usermod -aG www-data "$USERNAME"
 usermod -aG docker "$USERNAME"
+
+wait
+
 su -s ${USERNAME}
 
 # Install Docker and Docker Compose
@@ -49,11 +52,7 @@ rm tmp/master.zip
 mv -f ./tmp/Simple-PHP-Server-master/* .
 rm -rf ./tmp
 
-# Create /var/www folder
-rm -rf /var/www && mkdir -p /var/www && wait
-
 # Set permissions
-chown -R $USERNAME:www-data /var/www
 chown -R $USERNAME:www-data /home/$USERNAME
 wait
 
